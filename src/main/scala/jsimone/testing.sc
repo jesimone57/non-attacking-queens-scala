@@ -14,3 +14,7 @@ list.zipWithIndex.foreach{ case (row,  i) => col3(row) = i }
 
 col3
 col3.toList
+
+import jsimone.BoardUtil._
+rotate(List(2,0,1))
+rotate("201".map(_.asDigit).toList).mkString
