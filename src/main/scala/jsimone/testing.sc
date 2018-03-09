@@ -1,20 +1,22 @@
-import scala.collection.mutable._
 
-val list = List(0, 2, 1)
+val a = List(0,4,7,5,2,6,1,3)
+val positions: List[(Int,Int)] = a.zipWithIndex
 
-var col = new ListBuffer[Int]
-val col2 = new ArrayBuffer[Int]()
-val col3 = ArrayBuffer.fill(list.size)(-1)
-col3(0)
+val row = 4
+val col = 1
+val aboveRight = Range(row+1, a.size)
+val belowRight = Range(row-1, a.size)
 
-list
-list.zipWithIndex
-list.zipWithIndex.foreach{ case (row,  i) => println(s"col($row) = $i") }
-list.zipWithIndex.foreach{ case (row,  i) => col3(row) = i }
+val aboveLeft = Range(row+1, 0, -1)
+val belowLeft = Range(row-1, 0, -1)
 
-col3
-col3.toList
+positions.foreach{ case (row, col) =>
+        println(s"($row, $col)")
 
-import jsimone.BoardUtil._
-rotate(List(2,0,1))
-rotate("201".map(_.asDigit).toList).mkString
+
+
+
+
+
+
+}
