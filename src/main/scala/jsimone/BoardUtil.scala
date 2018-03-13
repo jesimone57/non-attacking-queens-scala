@@ -28,14 +28,18 @@ object BoardUtil {
 
     def isAttackingOnDiagonal(list: List[Int]): Boolean = {
         for (row <- 0 until list.size) {
-            for (col <- 1 until list.size) {
-                val above = list(row) + col
-                val below = list(row) - col
-                val offSet = row + col
+            for (index <- 1 until list.size) {
+                val above = list(row) + index
+                val below = list(row) - index
+                val offSet = row + index
                 //println(s"code=${list(row)} above=$above below=$below ($row,$col)->${list(col)} ${row+col} ${row-col}")
                 if (offSet < list.size && (above == list(offSet) || below == list(offSet))) return true
             }
         }
         false
+    }
+
+    def isAttackingOnDiagonal(list: String): Boolean = {
+        isAttackingOnDiagonal(list.map(_.asDigit).toList)
     }
 }
