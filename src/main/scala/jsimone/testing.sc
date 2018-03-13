@@ -23,6 +23,35 @@ val belowLeft = Range(row-1, 0, -1)
 
 val next = 1 + 1
 
+(0 until 8).foreach[Boolean]{ i => if (i == 5)  true else false}
+
+def f(list: List[Int]): Boolean = {
+    for (row <- 0 until list.size) {
+        for (col <- 1 until list.size) {
+            val above = list(row) + col
+            val below = list(row) - col
+            //println(s"code=${list(row)} above=$above below=$below ($row,$col)->${list(col)} ${row+col} ${row-col}")
+            if (//row != col &&
+                ( row+col< list.size && above == list(row+col)) ||
+                ( row+col<list.size && below == list(row+col))) {
+                return true
+            }
+        }
+    }
+    false
+}
+
+f(List(3,4))
+
+f(List(0,4,7,5,2,6,1,3))
+
+f(List(0,1))
+f(List(1,0))
+f(List(1,0,2))
+f(List(1,2,0))
+
+
+a(1)
 
 positions.foreach { case (row, col) =>
         println(s"($row, $col)")

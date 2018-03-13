@@ -56,4 +56,65 @@ class BoardUtilTest extends FlatSpec with Matchers {
         BoardUtil.rotate("25317460") shouldBe "04752613"
     }
 
+    "isAttackingOnDiagonal" should "return true for a diagonal 2x2 attack" in {
+        BoardUtil.isAttackingOnDiagonal(List(0,1)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(1,0)) shouldBe true
+    }
+
+    it should "return true for a diagonal 3x3 attack" in {
+        BoardUtil.isAttackingOnDiagonal(List(1,0,2)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(1,2,0)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(0,2,2)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(2,0,0)) shouldBe true
+    }
+
+    it should "return true for a diagonal 4x4 attack" in {
+        BoardUtil.isAttackingOnDiagonal(List(0,2,1,3)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(3,1,2,0)) shouldBe true
+        BoardUtil.isAttackingOnDiagonal(List(0,2,1,3)) shouldBe true
+    }
+
+    it should "return false for not a diagonal attack of only 2 queens" in {
+        BoardUtil.isAttackingOnDiagonal(List(0,4)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(1,4)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(2,4)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(6,4)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(7,4)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(4,0)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(4,1)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(4,2)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(4,6)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(4,7)) shouldBe false
+
+    }
+
+    it should "return true for a diagonal attack of only 2 queens" in {
+        BoardUtil.isAttackingOnDiagonal(List(3,4)) shouldBe true // one file over 3 + 1 = 4 -> attack
+        BoardUtil.isAttackingOnDiagonal(List(5,4)) shouldBe true // one file over 5 - 1 = 4 -> attack
+
+        BoardUtil.isAttackingOnDiagonal(List(4,3)) shouldBe true // one file over 4 - 1 = 3 -> attack
+        BoardUtil.isAttackingOnDiagonal(List(4,5)) shouldBe true // one file over 4 + 1 = 5 -> attack
+    }
+    
+    it should "return false for not a diagonal attack of only 3 queens" in {
+        BoardUtil.isAttackingOnDiagonal(List(0,4,1)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(0,4,6)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(0,4,7)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(1,4,0)) shouldBe false
+
+        BoardUtil.isAttackingOnDiagonal(List(6,4,0)) shouldBe false
+        BoardUtil.isAttackingOnDiagonal(List(7,4,0)) shouldBe false
+    }
+
+    it should "return true for a diagonal attack of only 3 queens" in {
+        BoardUtil.isAttackingOnDiagonal(List(0,4,2)) shouldBe true // two files over 0 + 2 = 2 -> attack
+        BoardUtil.isAttackingOnDiagonal(List(2,4,0)) shouldBe true // two files over 2 - 2 = 0 -> attack
+    }
+
 }
