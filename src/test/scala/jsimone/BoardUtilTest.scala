@@ -142,4 +142,48 @@ class BoardUtilTest extends FlatSpec with Matchers {
         BoardUtil.isAttackingOnDiagonal("04352617") shouldBe true
     }
 
+    "Solve" should "throw IllegalArgumentException for invalid board sizes" in {
+        assertThrows[IllegalArgumentException] {
+            BoardUtil.solve(0)
+        }
+        assertThrows[IllegalArgumentException] {
+            BoardUtil.solve(1)
+        }
+        assertThrows[IllegalArgumentException] {
+            BoardUtil.solve(11)
+        }
+    }
+
+    it should "solve for all solutions of the n queen problem for board size 4" in {
+        val solutions = BoardUtil.solve(4)
+        println("board size 4 solutions -> "+solutions)
+        solutions.size shouldBe 2
+
+        validateRotationsAndMirrors("1302", solutions)
+        validateRotationsAndMirrors("2031", solutions)
+    }
+
+    it should "solve for all solutions of the n queen problem for board size 5" in {
+        val solutions = BoardUtil.solve(5)
+        println("board size 5 solutions -> "+solutions)
+        solutions.size shouldBe 10
+
+        validateRotationsAndMirrors("02413", solutions)
+        validateRotationsAndMirrors("03142", solutions)
+        validateRotationsAndMirrors("13024", solutions)
+        validateRotationsAndMirrors("14203", solutions)
+        validateRotationsAndMirrors("20314", solutions)
+        validateRotationsAndMirrors("24130", solutions)
+        validateRotationsAndMirrors("30241", solutions)
+        validateRotationsAndMirrors("31420", solutions)
+        validateRotationsAndMirrors("41302", solutions)
+        validateRotationsAndMirrors("42031", solutions)
+    }
+
+    private def validateRotationsAndMirrors(solution: String, solutions: List[String]): Unit = {
+        solutions.contains(solution) shouldBe true
+        solutions.contains(solution.reverse) shouldBe true
+        solutions.contains(BoardUtil.rotate(solution)) shouldBe true
+        solutions.contains(BoardUtil.rotate(solution.reverse)) shouldBe true
+    }
 }

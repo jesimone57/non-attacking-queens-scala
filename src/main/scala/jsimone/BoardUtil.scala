@@ -42,4 +42,10 @@ object BoardUtil {
     def isAttackingOnDiagonal(list: String): Boolean = {
         isAttackingOnDiagonal(list.map(_.asDigit).toList)
     }
+
+    def solve(boardSize: Int): List[String] = {
+        require( boardSize <= 10 && boardSize >= 2)
+        val code = Range(0, 9).mkString.take(boardSize)
+        code.permutations.filter( ! isAttackingOnDiagonal(_)).toList
+    }
 }
