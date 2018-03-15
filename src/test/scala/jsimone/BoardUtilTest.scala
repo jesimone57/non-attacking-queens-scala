@@ -117,7 +117,7 @@ class BoardUtilTest extends FlatSpec with Matchers {
         BoardUtil.isAttackingOnDiagonal(List(2,4,0)) shouldBe true // two files over 2 - 2 = 0 -> attack
     }
     
-    it should "return correct result for a standard 8x8 chess board with 8 queens" in {
+    it should "return correct result for an up attack on standard 8x8 chess board with 8 queens" in {
         BoardUtil.isAttackingOnDiagonal("04752613") shouldBe false // 1st unique solution on an 8x8 board
 
         // Q in col 0 -> diagonal attack Q in col 1
@@ -141,6 +141,32 @@ class BoardUtilTest extends FlatSpec with Matchers {
         // Q in col 0 -> diagonal attack Q in col 7
         BoardUtil.isAttackingOnDiagonal("04352617") shouldBe true
     }
+
+    it should "return correct result for a down attack on standard 8x8 chess board with 8 queens" in {
+        BoardUtil.isAttackingOnDiagonal("73025164") shouldBe false // 1st unique solution on an 8x8 board
+
+        // Q in col 7 -> diagonal attack Q in col 1
+        BoardUtil.isAttackingOnDiagonal("76025134") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 2
+        BoardUtil.isAttackingOnDiagonal("73520164") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 3
+        BoardUtil.isAttackingOnDiagonal("73045162") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 4
+        BoardUtil.isAttackingOnDiagonal("75023164") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 5
+        BoardUtil.isAttackingOnDiagonal("73015264") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 6
+        BoardUtil.isAttackingOnDiagonal("73025614") shouldBe true
+
+        // Q in col 7 -> diagonal attack Q in col 7
+        BoardUtil.isAttackingOnDiagonal("73425160") shouldBe true
+    }
+
 
     "Solve" should "throw IllegalArgumentException for invalid board sizes" in {
         assertThrows[IllegalArgumentException] {
