@@ -1,5 +1,7 @@
 package jsimone
 
+
+import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object BoardUtil {
@@ -7,7 +9,13 @@ object BoardUtil {
     def flipYAxis(list: List[Int]): List[Int] =
         list.map(i => (list.size - 1) - i)
 
+    def flipYAxis(list:String): String =
+        list.map(_.asDigit).map(i => (list.size - 1) - i).mkString
+
     def flipXAxis(list: List[Int]): List[Int] =
+        list.reverse
+
+    def flipXAxis(list: String): String =
         list.reverse
 
     /**
@@ -47,5 +55,36 @@ object BoardUtil {
         require( boardSize <= 10 && boardSize >= 2)
         val code = Range(0, 9).mkString.take(boardSize)
         code.permutations.filter( ! isAttackingOnDiagonal(_)).toList
+    }
+
+    private def addVariationToSet(variation: String, variationSet:  mutable.TreeSet[String], resultsAlreadyAccountedFor: mutable.TreeSet[String]): Unit = {
+        if (! resultsAlreadyAccountedFor.contains(variation) && !variationSet.contains(variation)) {
+            variationSet += variation
+            resultsAlreadyAccountedFor += variation
+        }
+    }
+
+    def mapSolutionsIntoUniqueSets(solutions: List[String]): mutable.TreeMap[String, mutable.TreeSet[String]] = {
+        val pruned = new mutable.TreeMap[String, mutable.TreeSet[String]]()
+        val resultsAlreadyAccountedFor = new mutable.TreeSet[String]()
+        for (solution <- solutions) {
+            if (! resultsAlreadyAccountedFor.contains(solution)) {
+                val variationSet = new mutable.TreeSet[String]()
+
+                // add all the variations for this particular result, if they have not already been accounted for
+                addVariationToSet(solution, variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipXAxis(solution), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipYAxis(solution), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipXAxis(flipYAxis(solution)), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(rotate(solution), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipXAxis(rotate(solution)), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipYAxis(rotate(solution)), variationSet, resultsAlreadyAccountedFor)
+                addVariationToSet(flipXAxis(flipYAxis(rotate(solution))), variationSet, resultsAlreadyAccountedFor)
+
+                println(s"$solution $variationSet")
+                pruned += (solution -> variationSet)
+            }
+        }
+        pruned
     }
 }

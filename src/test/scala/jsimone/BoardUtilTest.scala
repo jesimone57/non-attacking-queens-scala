@@ -7,11 +7,29 @@ class BoardUtilTest extends FlatSpec with Matchers {
     "Flip Y" should "flip the board about Y axis" in {
         val list = List(0,2,1)
         BoardUtil.flipYAxis(list) shouldBe List(2,0,1)
+        val list1 = List(4,1,3,0,2)
+        BoardUtil.flipYAxis(list1) shouldBe List(0,3,1,4,2)
+    }
+
+    it should "flip the board as string about Y axis" in {
+        val list = "021"
+        BoardUtil.flipYAxis(list) shouldBe "201"
+        val list1 = "41302"
+        BoardUtil.flipYAxis(list1) shouldBe "03142"
     }
 
     "Flip X" should "flip the board about X axis" in {
         val list = List(0,2,1)
         BoardUtil.flipXAxis(list) shouldBe List(1,2,0)
+        val list1 = List(4,1,3,0,2)
+        BoardUtil.flipXAxis(list1) shouldBe List(2,0,3,1,4)
+    }
+
+    it should "flip the board as string about X axis" in {
+        val list = "021"
+        BoardUtil.flipXAxis(list) shouldBe "120"
+        val list1 = "41302"
+        BoardUtil.flipXAxis(list1) shouldBe "20314"
     }
 
     "Rotate" should "rotate a 3x3 board clock-wise 90 degrees" in {
@@ -183,7 +201,7 @@ class BoardUtilTest extends FlatSpec with Matchers {
     it should "solve for all solutions of the n queen problem for board size 4" in {
         val solutions = BoardUtil.solve(4)
         println("board size 4 solutions -> "+solutions)
-        solutions.size shouldBe 2
+        solutions should have size 2
 
         validateRotationsAndMirrors("1302", solutions)
         validateRotationsAndMirrors("2031", solutions)
@@ -192,7 +210,7 @@ class BoardUtilTest extends FlatSpec with Matchers {
     it should "solve for all solutions of the n queen problem for board size 5" in {
         val solutions = BoardUtil.solve(5)
         println("board size 5 solutions -> "+solutions)
-        solutions.size shouldBe 10
+        solutions should have size 10
 
         validateRotationsAndMirrors("02413", solutions)
         validateRotationsAndMirrors("03142", solutions)
@@ -204,6 +222,77 @@ class BoardUtilTest extends FlatSpec with Matchers {
         validateRotationsAndMirrors("31420", solutions)
         validateRotationsAndMirrors("41302", solutions)
         validateRotationsAndMirrors("42031", solutions)
+    }
+    "Map Solutions Into Unique Sets" should "find all the unique solutions and map all the variations into sets for board size 2x2" in {
+        val solutions = BoardUtil.solve(2)
+        solutions should have size 0
+    }
+
+    it should "find all the unique solutions and map all the variations into sets for board size 3x3" in {
+        val solutions = BoardUtil.solve(3)
+        solutions should have size 0
+    }
+
+    it should "find all the unique solutions and map all the variations into setsinto sets for board size 4x4" in {
+        val solutions = BoardUtil.solve(4)
+        solutions should have size 2
+
+        val uniqueSolutions = BoardUtil.mapSolutionsIntoUniqueSets(solutions)
+        uniqueSolutions should have size 1
+        uniqueSolutions("1302") should have size 2
+    }
+
+    it should "find all the unique solutions and map all the variations into sets for board size 5x5" in {
+        val solutions = BoardUtil.solve(5)
+        solutions should have size 10
+
+        val uniqueSolutions = BoardUtil.mapSolutionsIntoUniqueSets(solutions)
+        uniqueSolutions should have size 2
+        uniqueSolutions("02413") should have size 8
+        uniqueSolutions("14203") should have size 2
+    }
+
+    it should "find all the unique solutions and map all the variations into setsinto sets for board size 6x6" in {
+        val solutions = BoardUtil.solve(6)
+        solutions should have size 4
+
+        val uniqueSolutions = BoardUtil.mapSolutionsIntoUniqueSets(solutions)
+        uniqueSolutions should have size 1
+        uniqueSolutions("135024") should have size 4
+    }
+
+    it should "find all the unique solutions and map all the variations into setsinto sets for board size 7x7" in {
+        val solutions = BoardUtil.solve(7)
+        solutions should have size 40
+
+        val uniqueSolutions = BoardUtil.mapSolutionsIntoUniqueSets(solutions)
+        uniqueSolutions should have size 6
+        uniqueSolutions("0246135") should have size 8
+        uniqueSolutions("0362514") should have size 8
+        uniqueSolutions("1306425") should have size 8
+        uniqueSolutions("1403625") should have size 4
+        uniqueSolutions("1463025") should have size 4
+        uniqueSolutions("1526304") should have size 8
+    }
+
+    it should "find all the unique solutions and map all the variations into setsinto sets for board size 8x8" in {
+        val solutions = BoardUtil.solve(8)
+        solutions should have size 92
+
+        val uniqueSolutions = BoardUtil.mapSolutionsIntoUniqueSets(solutions)
+        uniqueSolutions should have size 12
+        uniqueSolutions("04752613") should have size 8
+        uniqueSolutions("05726314") should have size 8
+        uniqueSolutions("13572064") should have size 8
+        uniqueSolutions("14602753") should have size 8
+        uniqueSolutions("14630752") should have size 8
+        uniqueSolutions("15063724") should have size 8
+        uniqueSolutions("15720364") should have size 8
+        uniqueSolutions("16257403") should have size 8
+        uniqueSolutions("16470352") should have size 8
+        uniqueSolutions("24170635") should have size 4
+        uniqueSolutions("24730615") should have size 8
+        uniqueSolutions("25147063") should have size 8
     }
 
     private def validateRotationsAndMirrors(solution: String, solutions: List[String]): Unit = {
