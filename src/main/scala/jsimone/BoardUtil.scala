@@ -81,7 +81,7 @@ object BoardUtil {
                 addVariationToSet(flipYAxis(rotate(solution)), variationSet, resultsAlreadyAccountedFor)
                 addVariationToSet(flipXAxis(flipYAxis(rotate(solution))), variationSet, resultsAlreadyAccountedFor)
 
-                println(s"$solution $variationSet")
+                //println(s"$solution $variationSet")
                 pruned += (solution -> variationSet)
             }
         }
