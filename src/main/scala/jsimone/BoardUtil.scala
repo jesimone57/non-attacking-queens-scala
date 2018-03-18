@@ -7,10 +7,10 @@ import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 object BoardUtil {
 
     def flipYAxis(list: List[Int]): List[Int] =
-        list.map(i => (list.size - 1) - i)
+        list.map((list.size - 1) - _)
 
     def flipYAxis(list:String): String =
-        list.map(_.asDigit).map(i => (list.size - 1) - i).mkString
+        list.map((list.size - 1) - _.asDigit).mkString
 
     def flipXAxis(list: List[Int]): List[Int] =
         list.reverse
