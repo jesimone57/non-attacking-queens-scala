@@ -191,7 +191,7 @@ class BoardUtilTest extends FlatSpec with Matchers {
             BoardUtil.solve(0)
         }
         assertThrows[IllegalArgumentException] {
-            BoardUtil.solve(1)
+            BoardUtil.solve(-1)
         }
         assertThrows[IllegalArgumentException] {
             BoardUtil.solve(11)

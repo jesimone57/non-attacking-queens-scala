@@ -15,7 +15,7 @@ object DisplayBoard {
 
     def displayBoard(solution: String): Unit = {
         val boardSize = solution.size
-        require(boardSize > 2 && boardSize < 11)
+        require(boardSize >= 1 && boardSize <= 10)
         displayDivider(boardSize)
         solution.map(_.asDigit).foreach(i => displayRow(i, boardSize))
         println("\n")
@@ -33,7 +33,7 @@ object DisplayBoard {
         var i = 1
         val numUniqueSolutions = variationsMap.keys.size
         for (solution <- variationsMap.keys) {
-            println(s"Unique Solution $i of $numUniqueSolutions:  $solution  All possible rotations and refliections/mirrors give: ${variationsMap(solution).mkString(", ")}")
+            println(s"Unique Solution $i of $numUniqueSolutions:  $solution  All possible rotations and reflections/mirrors give: [${variationsMap(solution).mkString(", ")}]")
             displayBoard(solution)
             i += 1
         }

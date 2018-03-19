@@ -2,7 +2,7 @@ package jsimone
 
 
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ArrayBuffer
 
 object BoardUtil {
 
@@ -52,9 +52,9 @@ object BoardUtil {
     }
 
     def solve(boardSize: Int): List[String] = {
-        require( boardSize <= 10 && boardSize >= 2)
-        val code = Range(0, 9).mkString.take(boardSize)
-        code.permutations.filter( ! isAttackingOnDiagonal(_)).toList
+        require( boardSize >= 1 && boardSize <= 10 )
+        val ordinalEncoding = (0 until boardSize).mkString
+        ordinalEncoding.permutations.filter( ! isAttackingOnDiagonal(_)).toList
     }
 
     private def addVariationToSet(variation: String, variationSet:  mutable.TreeSet[String], resultsAlreadyAccountedFor: mutable.TreeSet[String]): Unit = {
