@@ -1,4 +1,4 @@
-import jsimone.{BoardUtil, DisplayBoard}
+package jsimone
 
 class Application
 
@@ -11,7 +11,7 @@ object Application {
                 boardSize = args(0).toInt
             catch {
                 case ex: NumberFormatException =>
-                    println("Usage is: java Application n")
+                    println("Usage is: java jsimone.Application n")
                     println("Where n = board size.  n must be in the range of 1 through 10.  n is optional and if omitted defaults to 8")
                     return
             }
